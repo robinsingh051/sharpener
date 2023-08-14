@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body{
+            background-color: lightgoldenrodyellow;
+        }
+        h1{
+            color: orange;
+            text-align: center;
+        }
+        div{
+            border: 1px solid black;
+            border-radius: 10px;
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 30px 20px;
+            margin-top: 100px;
+            width:70%
+        }
+        p{
+            font-size: small;
+            text-align: center;
+        }
+        input{
+            width: 100%;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            height: 30px;
+        }
+        button{
+            width: 100%;
+            height: 40px;
+            color: white;
+            background-color: orange;
+            border-radius: 5px;
+            margin-top: 30px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Book a call</h1>
+        <p>Book a call slot and our representative will call you within 1hr of selected time</p>
+        <hr>
+        <form action=""></form>
+        <Label for="name">Name:</Label>
+        <br>
+        <input type="text" id="name">
+        <br>
+        <Label for="email">Email:</Label>
+        <br>
+        <input type="email" id="email">
+        <br>
+        <Label for="phone">Phone:</Label>
+        <br>
+        <input type="tel" id="phone">
+        <br>
+        <label for="time">Time for Call:</label>
+        <br>
+        <input type="datetime-local" id="time">
+        <br>
+        <button id="submit">GET A CALL</button>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const submitButton = document.getElementById("submit");
+
+            submitButton.addEventListener("click", function(event) {
+                event.preventDefault();
+
+                // Access form data
+                const name = document.getElementById("name").value;
+                const email = document.getElementById("email").value;
+                const phone = document.getElementById("phone").value;
+                const time = document.getElementById("time").value;
+
+                // Log form data to console
+                console.log("Name:", name);
+                console.log("Email:", email);
+                console.log("Phone:", phone);
+                console.log("Time:", time);
+            });
+        });
+    </script>
+</body>
+</html>
