@@ -11,12 +11,21 @@
 // console.log(document.links);
 // console.log(document.images);
 
-let headerTitle=document.getElementById('header-title');
+// let headerTitle=document.getElementById('header-title');
 // headerTitle.textContent='Hello';
 // headerTitle.innerHTML='Bye';
 
-headerTitle.style='border:1px solid black';
+// headerTitle.style='border:1px solid black';
 
-let addItem=document.getElementById('add');
-console.log(addItem);
-addItem.style='font-weight:bold; color:green;';
+// let addItem=document.getElementById('add');
+// console.log(addItem);
+// addItem.style='font-weight:bold; color:green;';
+
+const items = document.querySelectorAll(".list-group-item");
+
+items.forEach((item, index) => {
+    item.style.fontWeight = "bold";
+    if (index === 2) {
+      item.style.backgroundColor = "green";
+    }
+});
