@@ -52,13 +52,20 @@
 //     lastItemByTagName.style.backgroundColor = 'orange';
 // }
 
-document.querySelectorAll(".list-group-item")[1].style.backgroundColor = "green";
+// document.querySelectorAll(".list-group-item")[1].style.backgroundColor = "green";
 
-document.querySelectorAll(".list-group-item")[2].style.display = "none";
+// document.querySelectorAll(".list-group-item")[2].style.display = "none";
 
-document.querySelector(".list-group-item:nth-child(2)").style.color = "green";
+// document.querySelector(".list-group-item:nth-child(2)").style.color = "green";
 
-document.querySelectorAll(".list-group-item:nth-child(odd)").forEach(item => {
-item.style.backgroundColor = "green";
-});
+// document.querySelectorAll(".list-group-item:nth-child(odd)").forEach(item => {
+// item.style.backgroundColor = "green";
+// });
+
+const headerTitle = document.getElementById("header-title");
+headerTitle.insertAdjacentText("beforebegin", "Hello ");
+
+// Add "Hello" before "Item 1"
+const firstListItem = document.querySelector(".list-group-item");
+firstListItem.insertAdjacentText("beforebegin", "Hello ");
 
