@@ -32,23 +32,33 @@
 
 
 // Add a new <li> element without the same class name
-const newItem = document.createElement('li');
-newItem.textContent = 'New Item Without Class';
-document.getElementById('items').appendChild(newItem);
+// const newItem = document.createElement('li');
+// newItem.textContent = 'New Item Without Class';
+// document.getElementById('items').appendChild(newItem);
 
-// Edit the new <li> element using getElementsByClassName
-// const itemsByClass = document.getElementsByClassName('list-group-item');
-// if (itemsByClass.length > 0) {
-//     const lastItemByClass = itemsByClass[itemsByClass.length - 1];
-//     lastItemByClass.textContent = 'Edited using getElementsByClassName';
-//     lastItemByClass.style.backgroundColor = 'green';
+// // Edit the new <li> element using getElementsByClassName
+// // const itemsByClass = document.getElementsByClassName('list-group-item');
+// // if (itemsByClass.length > 0) {
+// //     const lastItemByClass = itemsByClass[itemsByClass.length - 1];
+// //     lastItemByClass.textContent = 'Edited using getElementsByClassName';
+// //     lastItemByClass.style.backgroundColor = 'green';
+// // }
+
+// // Edit the new <li> element using getElementsByTagName
+// const itemsByTagName = document.getElementsByTagName('li');
+// if (itemsByTagName.length > 3) {
+//     const lastItemByTagName = itemsByTagName[itemsByTagName.length - 1];
+//     lastItemByTagName.textContent = 'Edited using getElementsByTagName';
+//     lastItemByTagName.style.backgroundColor = 'orange';
 // }
 
-// Edit the new <li> element using getElementsByTagName
-const itemsByTagName = document.getElementsByTagName('li');
-if (itemsByTagName.length > 3) {
-    const lastItemByTagName = itemsByTagName[itemsByTagName.length - 1];
-    lastItemByTagName.textContent = 'Edited using getElementsByTagName';
-    lastItemByTagName.style.backgroundColor = 'orange';
-}
+document.querySelectorAll(".list-group-item")[1].style.backgroundColor = "green";
+
+document.querySelectorAll(".list-group-item")[2].style.display = "none";
+
+document.querySelector(".list-group-item:nth-child(2)").style.color = "green";
+
+document.querySelectorAll(".list-group-item:nth-child(odd)").forEach(item => {
+item.style.backgroundColor = "green";
+});
 
