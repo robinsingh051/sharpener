@@ -22,8 +22,16 @@ function onSubmit(e) {
   } else {
     const li = document.createElement('li');
 
+    //create a delete button
+    const delBtn=document.createElement('button');
+    delBtn.appendChild(document.createTextNode('Delete'));
+    delBtn.classList.add('del');
+
     // Add text node with input values
     li.appendChild(document.createTextNode(`${nameInput.value}: ${emailInput.value}`));
+    // add button to li
+    li.appendChild(delBtn);
+
 
     // Add HTML
     // li.innerHTML = `<strong>${nameInput.value}</strong>e: ${emailInput.value}`;
@@ -63,4 +71,41 @@ function onSubmit(e) {
     nameInput.value = '';
     emailInput.value = '';
   }
+}
+
+const ul=document.getElementById('users');
+const delBtn=document.getElementsByClassName('del');
+// //add event listener to all delete buttons
+// for (let i = 0; i < delBtn.length; i++) {
+//     delBtn[i].addEventListener('click', removeItem);
+// }
+ul.addEventListener('click', removeItem);
+
+function removeItem(e){
+    if(e.target.classList.contains('del')){
+        if(confirm('Are You Sure?')){
+          var li = e.target.parentElement;
+
+          // Get the index of the item to delete
+          const index = Array.from(ul.children).indexOf(li);
+
+          // Retrieve existing credentials from local storage
+          const existingCredentials = localStorage.getItem('credentials');
+
+          // Parse the existing credentials if they exist
+          const existingCredentialsParsed = existingCredentials ? JSON.parse(existingCredentials) : [];
+
+          // Remove the item from the existing credentials array
+          existingCredentialsParsed.splice(index, 1);
+
+          // Convert the updated credentials to a string
+          const updatedCredentialsSerialized = JSON.stringify(existingCredentialsParsed);
+
+          // Store the updated credentials in local storage
+          localStorage.setItem('credentials', updatedCredentialsSerialized);
+
+          ul.removeChild(li);
+
+        }
+      }
 }
