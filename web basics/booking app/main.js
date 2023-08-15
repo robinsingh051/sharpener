@@ -20,12 +20,44 @@ function onSubmit(e) {
     // Remove error after 3 seconds
     setTimeout(() => msg.remove(), 3000);
   } else {
-    let details={
-        name:nameInput.value,
-        email:emailInput.value
-    }
-    let detailsSerialized=JSON.stringify(details);
-    localStorage.setItem('credentials',detailsSerialized);
+    const li = document.createElement('li');
+
+    // Add text node with input values
+    li.appendChild(document.createTextNode(`${nameInput.value}: ${emailInput.value}`));
+
+    // Add HTML
+    // li.innerHTML = `<strong>${nameInput.value}</strong>e: ${emailInput.value}`;
+
+    // Append to ul
+    userList.appendChild(li);
+    // let details={
+    //     name:nameInput.value,
+    //     email:emailInput.value
+    // }
+    // let detailsSerialized=JSON.stringify(details);
+    // localStorage.setItem('credentials',detailsSerialized);
+
+    // Retrieve existing credentials from local storage
+    const existingCredentials = localStorage.getItem('credentials');
+
+    // Parse the existing credentials if they exist
+    const existingCredentialsParsed = existingCredentials ? JSON.parse(existingCredentials) : [];
+
+    // Create new details object
+    const newDetails = {
+        name: nameInput.value,
+        email: emailInput.value
+    };
+
+    // Add the new details to the existing credentials
+    existingCredentialsParsed.push(newDetails);
+
+    // Convert the updated credentials to a string
+    const updatedCredentialsSerialized = JSON.stringify(existingCredentialsParsed);
+
+    // Store the updated credentials in local storage
+    localStorage.setItem('credentials', updatedCredentialsSerialized);
+
 
     // Clear fields
     nameInput.value = '';
