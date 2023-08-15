@@ -27,10 +27,16 @@ function onSubmit(e) {
     delBtn.appendChild(document.createTextNode('Delete'));
     delBtn.classList.add('del');
 
+    //create a delete button
+    const editBtn=document.createElement('button');
+    editBtn.appendChild(document.createTextNode('Edit'));
+    editBtn.classList.add('edit');
+
     // Add text node with input values
     li.appendChild(document.createTextNode(`${nameInput.value}: ${emailInput.value}`));
     // add button to li
     li.appendChild(delBtn);
+    li.appendChild(editBtn);
 
 
     // Add HTML
@@ -80,6 +86,7 @@ const delBtn=document.getElementsByClassName('del');
 //     delBtn[i].addEventListener('click', removeItem);
 // }
 ul.addEventListener('click', removeItem);
+ul.addEventListener('click',editItem);
 
 function removeItem(e){
     if(e.target.classList.contains('del')){
@@ -105,6 +112,46 @@ function removeItem(e){
           localStorage.setItem('credentials', updatedCredentialsSerialized);
 
           ul.removeChild(li);
+
+        }
+      }
+}
+
+
+function editItem(e){
+    if(e.target.classList.contains('edit')){
+        if(confirm('Are You Sure?')){
+          var li = e.target.parentElement;
+
+          // Get the index of the item to delete
+          const index = Array.from(ul.children).indexOf(li);
+
+          // Retrieve existing credentials from local storage
+          const existingCredentials = localStorage.getItem('credentials');
+
+          // Parse the existing credentials if they exist
+          const existingCredentialsParsed = existingCredentials ? JSON.parse(existingCredentials) : [];
+
+          let name='',email='';
+          if(existingCredentialsParsed!=[]){
+                name=existingCredentialsParsed[index].name;
+                email=existingCredentialsParsed[index].email;
+          }
+
+          // Remove the item from the existing credentials array
+          existingCredentialsParsed.splice(index, 1);
+
+          // Convert the updated credentials to a string
+          const updatedCredentialsSerialized = JSON.stringify(existingCredentialsParsed);
+
+          // Store the updated credentials in local storage
+          localStorage.setItem('credentials', updatedCredentialsSerialized);
+
+          ul.removeChild(li);
+
+          // Clear fields
+          nameInput.value = name;
+          emailInput.value = email;
 
         }
       }
