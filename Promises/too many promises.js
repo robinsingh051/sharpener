@@ -35,16 +35,32 @@ function deleteLastPost() {
     });
 }
 
-Promise.all([createPost({ title: "Post One" }), updateLastUserActivityTime(user)])
-    .then(() => {
+// Promise.all([createPost({ title: "Post One" }), updateLastUserActivityTime(user)])
+//     .then(() => {
+//         console.log("Posts:", posts);
+//         console.log("Last Activity Time:", user.lastActivityTime);
+
+//         deleteLastPost().then(deletedPost => {
+//             console.log("Deleted Post:", deletedPost);
+//             console.log("Updated Posts:", posts);
+//         })
+//         .catch(error => {
+//         console.log("Error:", error);
+//         })
+//     });
+
+const mainFunction = async () => {
+    try {
+        await Promise.all([createPost({ title: "Post One" }), updateLastUserActivityTime(user)]);
         console.log("Posts:", posts);
         console.log("Last Activity Time:", user.lastActivityTime);
 
-        deleteLastPost().then(deletedPost => {
-            console.log("Deleted Post:", deletedPost);
-            console.log("Updated Posts:", posts);
-        })
-        .catch(error => {
+        const deletedPost = await deleteLastPost();
+        console.log("Deleted Post:", deletedPost);
+        console.log("Updated Posts:", posts);
+    } catch (error) {
         console.log("Error:", error);
-        })
-    });
+    }
+};
+
+mainFunction();
