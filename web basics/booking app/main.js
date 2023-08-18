@@ -51,11 +51,11 @@ function onSubmit(e) {
     // let detailsSerialized=JSON.stringify(details);
     // localStorage.setItem('credentials',detailsSerialized);
 
-    // Retrieve existing credentials from local storage
-    const existingCredentials = localStorage.getItem('credentials');
+    // // Retrieve existing credentials from local storage
+    // const existingCredentials = localStorage.getItem('credentials');
 
-    // Parse the existing credentials if they exist
-    const existingCredentialsParsed = existingCredentials ? JSON.parse(existingCredentials) : [];
+    // // Parse the existing credentials if they exist
+    // const existingCredentialsParsed = existingCredentials ? JSON.parse(existingCredentials) : [];
 
     // Create new details object
     const newDetails = {
@@ -63,14 +63,23 @@ function onSubmit(e) {
         email: emailInput.value
     };
 
-    // Add the new details to the existing credentials
-    existingCredentialsParsed.push(newDetails);
+    // // Add the new details to the existing credentials
+    // existingCredentialsParsed.push(newDetails);
 
-    // Convert the updated credentials to a string
-    const updatedCredentialsSerialized = JSON.stringify(existingCredentialsParsed);
+    // // Convert the updated credentials to a string
+    // const updatedCredentialsSerialized = JSON.stringify(existingCredentialsParsed);
 
-    // Store the updated credentials in local storage
-    localStorage.setItem('credentials', updatedCredentialsSerialized);
+    // // Store the updated credentials in local storage
+    // localStorage.setItem('credentials', updatedCredentialsSerialized);
+
+    // post to crud crud using axios
+    axios.post('https://crudcrud.com/api/8806390386144251b3092ca3aad91050/user',newDetails)
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => {
+      console.error(err); 
+    })
 
 
     // Clear fields
