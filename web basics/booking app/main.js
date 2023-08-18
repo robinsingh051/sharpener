@@ -118,35 +118,51 @@ function editItem(e){
         if(confirm('Are You Sure?')){
           var li = e.target.parentElement;
 
-          // Get the index of the item to delete
-          const index = Array.from(ul.children).indexOf(li);
+          // // Get the index of the item to delete
+          // const index = Array.from(ul.children).indexOf(li);
 
-          // Retrieve existing credentials from local storage
-          const existingCredentials = localStorage.getItem('credentials');
+          // // Retrieve existing credentials from local storage
+          // const existingCredentials = localStorage.getItem('credentials');
 
-          // Parse the existing credentials if they exist
-          const existingCredentialsParsed = existingCredentials ? JSON.parse(existingCredentials) : [];
+          // // Parse the existing credentials if they exist
+          // const existingCredentialsParsed = existingCredentials ? JSON.parse(existingCredentials) : [];
 
-          let name='',email='';
-          if(existingCredentialsParsed!=[]){
-                name=existingCredentialsParsed[index].name;
-                email=existingCredentialsParsed[index].email;
-          }
+          // let name='',email='';
+          // if(existingCredentialsParsed!=[]){
+          //       name=existingCredentialsParsed[index].name;
+          //       email=existingCredentialsParsed[index].email;
+          // }
 
-          // Remove the item from the existing credentials array
-          existingCredentialsParsed.splice(index, 1);
+          // // Remove the item from the existing credentials array
+          // existingCredentialsParsed.splice(index, 1);
 
-          // Convert the updated credentials to a string
-          const updatedCredentialsSerialized = JSON.stringify(existingCredentialsParsed);
+          // // Convert the updated credentials to a string
+          // const updatedCredentialsSerialized = JSON.stringify(existingCredentialsParsed);
 
-          // Store the updated credentials in local storage
-          localStorage.setItem('credentials', updatedCredentialsSerialized);
+          // // Store the updated credentials in local storage
+          // localStorage.setItem('credentials', updatedCredentialsSerialized);
+          axios
+          .get(`https://crudcrud.com/api/8806390386144251b3092ca3aad91050/user/${li.id}`)
+          .then((res)=>{
+            nameInput.value = res.data.name;
+            emailInput.value = res.data.email;
+            axios
+            .delete(`https://crudcrud.com/api/8806390386144251b3092ca3aad91050/user/${li.id}`)
+            .then((response)=>{
+              console.log(response);
+            })
+            .catch((err)=>{
+              console.log(err);
+            });
+          })
+          .catch((err)=>{
+            console.log(err);
+          });
 
           ul.removeChild(li);
 
           // Clear fields
-          nameInput.value = name;
-          emailInput.value = email;
+
 
         }
       }
