@@ -1,20 +1,20 @@
 const express=require('express');
+const bodyparser=require('body-parser');
 
 const app=express();
 
-// Define your middleware functions
-const firstMiddleware = (req, res, next) => {
-    console.log('Inside first middleware function');
-    next();
-};
+app.use(bodyparser.urlencoded({extended:false}));
 
-const secondMiddleware = (req, res, next) => {
-    console.log('Inside second middleware function');
-    res.send('<h1>Hello from express app');
-};
-
-// Use the middleware functions
-app.use(firstMiddleware);
-app.use(secondMiddleware);
+app.get('/add-product',(req,res)=>{
+    res.send('<form action="/add-product" method="POST" ><input type="text" name="title"><input type="number" name="quantity"><button type="submit">add product</button>');
+});
+app.post('/add-product',(req,res)=>{
+    console.log(req.body.title);
+    console.log(req.body.quantity);
+    res.redirect('/');
+});
+app.get('/',(req,res)=>{
+    res.send('<h1>Hello from express app</h1>');
+});
 
 app.listen(3000);
