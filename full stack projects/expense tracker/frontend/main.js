@@ -12,7 +12,7 @@ const userList = document.querySelector('#users');
 // Listen for form submit
 myForm.addEventListener('submit', onSubmit);
 
-function onSubmit(e) {
+async function onSubmit(e) {
   e.preventDefault();
   if(expense.value === '' || desc.value === '' || cat.value==='') {
     msg.classList.add('error');
@@ -127,7 +127,7 @@ function editItem(e){
 }
 
 //Run the function after the script is loaded in the browser
-document.addEventListener('DOMContentLoaded',()=>{
+document.addEventListener('DOMContentLoaded',async ()=>{
   axios
   .get('http://localhost:3000/expenses')
   .then((response)=>{
