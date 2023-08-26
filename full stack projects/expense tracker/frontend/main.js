@@ -1,6 +1,3 @@
-
-// USER FORM SCRIPT
-
 // Put DOM elements into variables
 const myForm = document.querySelector('#my-form');
 const expense = document.querySelector('#expense');
@@ -14,128 +11,106 @@ myForm.addEventListener('submit', onSubmit);
 
 async function onSubmit(e) {
   e.preventDefault();
-  if(expense.value === '' || desc.value === '' || cat.value==='') {
-    msg.classList.add('error');
-    msg.textContent = 'Please enter all fields';
+  try {
+    if (expense.value === '' || desc.value === '' || cat.value === '') {
+      msg.classList.add('error');
+      msg.textContent = 'Please enter all fields';
 
-    // Remove error after 3 seconds
-    setTimeout(() => msg.remove(), 3000);
-  } else {
-    const newDetails = {
-      expense: expense.value,
-      desc: desc.value,
-      cat:cat.value
+      // Remove error after 3 seconds
+      setTimeout(() => {
+        msg.textContent = '';
+        msg.classList.remove('error');
+      }, 3000);
+    } else {
+      const newDetails = {
+        expense: expense.value,
+        desc: desc.value,
+        cat: cat.value
+      };
+
+      const response = await axios.post('http://localhost:3000/expenses', newDetails);
+
+      console.log(response);
+      showData(response.data);
+
+      // Clear fields
+      expense.value = '';
+      desc.value = '';
+      cat.value = '';
     }
-
-    // post to crud crud using axios
-    axios.post('http://localhost:3000/expenses',newDetails)
-    .then((res) => {
-      console.log(res);
-      showData(res.data);
-    })
-    .catch(err => {
-      console.error(err); 
-    })
-
-    // Clear fields
-    expense.value = '';
-    desc.value = '';
-    cat.value='';
+  } catch (err) {
+    console.error(err);
   }
 }
 
-function showData(obj){
+function showData(obj) {
   const li = document.createElement('li');
-  li.id=obj.id;
+  li.id = obj.id;
 
-  //create a delete button
-  const delBtn=document.createElement('button');
-  delBtn.classList.add('btn');
-  delBtn.classList.add('btn-danger');
+  const delBtn = document.createElement('button');
+  delBtn.classList.add('btn', 'btn-danger', 'del');
   delBtn.appendChild(document.createTextNode('Delete'));
-  delBtn.classList.add('del');
 
-  //create a edit button
-  const editBtn=document.createElement('button');
-  editBtn.classList.add('btn');
-  editBtn.classList.add('btn-warning');
+  const editBtn = document.createElement('button');
+  editBtn.classList.add('btn', 'btn-warning', 'edit');
   editBtn.appendChild(document.createTextNode('Edit'));
-  editBtn.classList.add('edit');
 
-  // Add text node with input values
   li.appendChild(document.createTextNode(`${obj.expense}: ${obj.desc}: ${obj.cat}`));
-  // add button to li
   li.appendChild(delBtn);
   li.appendChild(editBtn);
 
-  // Append to ul
   userList.appendChild(li);
 }
 
-const ul=document.getElementById('users');
-const delBtn=document.getElementsByClassName('del');
+const ul = document.getElementById('users');
 
 ul.addEventListener('click', removeItem);
-ul.addEventListener('click',editItem);
+ul.addEventListener('click', editItem);
 
-function removeItem(e){
-    if(e.target.classList.contains('del')){
-        if(confirm('Are You Sure?')){
-          var li = e.target.parentElement;
-          axios
-          .delete(`http://localhost:3000/expense/${li.id}`)
-          .then((response)=>{
-            console.log(response);
-          })
-          .catch((err)=>{
-            console.log(err);
-          });
-
-          ul.removeChild(li);
-        }
+async function removeItem(e) {
+  if (e.target.classList.contains('del')) {
+    if (confirm('Are You Sure?')) {
+      try {
+        const li = e.target.parentElement;
+        const response = await axios.delete(`http://localhost:3000/expense/${li.id}`);
+        console.log(response);
+        ul.removeChild(li);
+      } catch (err) {
+        console.log(err);
       }
+    }
+  }
 }
 
+async function editItem(e) {
+  if (e.target.classList.contains('edit')) {
+    if (confirm('Are You Sure?')) {
+      try {
+        const li = e.target.parentElement;
+        const res = await axios.get(`http://localhost:3000/expense/${li.id}`);
+        expense.value = res.data.expense;
+        desc.value = res.data.desc;
+        cat.value = res.data.cat;
 
-function editItem(e){
-    if(e.target.classList.contains('edit')){
-        if(confirm('Are You Sure?')){
-          var li = e.target.parentElement;
-          
-          axios
-          .get(`http://localhost:3000/expense/${li.id}`)
-          .then((res)=>{
-            expense.value = res.data.expense;
-            desc.value = res.data.desc;
-            cat.value=res.data.cat;
-            axios
-            .delete(`http://localhost:3000/expense/${li.id}`)
-            .then((response)=>{
-              console.log(response);
-            })
-            .catch((err)=>{
-              console.log(err);
-            });
-          })
-          .catch((err)=>{
-            console.log(err);
-          });
+        const deleteResponse = await axios.delete(`http://localhost:3000/expense/${li.id}`);
+        console.log(deleteResponse);
 
-          ul.removeChild(li);
-        }
+        ul.removeChild(li);
+      } catch (err) {
+        console.log(err);
       }
+    }
+  }
 }
 
-//Run the function after the script is loaded in the browser
-document.addEventListener('DOMContentLoaded',async ()=>{
-  axios
-  .get('http://localhost:3000/expenses')
-  .then((response)=>{
-    for(let i=0;i<response.data.length;i++){
+// Run the function after the script is loaded in the browser
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/expenses');
+    for (let i = 0; i < response.data.length; i++) {
       showData(response.data[i]);
     }
-  })
-  .catch((err)=>{
+  } catch (err) {
     console.log(err);
-  });
+  }
 });
