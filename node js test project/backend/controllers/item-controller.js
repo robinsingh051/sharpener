@@ -37,7 +37,6 @@ exports.updateItem= async(req,res,next)=>{
         }
         //update quantity
         let qty = req.body.qty;
-        console.log(qty,req.body.qty);
         // delete the item if quantity is 0
         if(qty===0){
             await item.destroy();
