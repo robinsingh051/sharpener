@@ -1,5 +1,5 @@
-import ExpenseItem from "./components/ExpenseItem";
-function App() {
+import Expenses from "./components/Expenses/Expenses";
+const App = () => {
   const expenses = [
     {
       title: "Car Insurance",
@@ -27,16 +27,12 @@ function App() {
     },
   ];
 
-  const ExpenseItems = [];
-  for (let expense of expenses) {
-    ExpenseItems.push(<ExpenseItem expense={expense}></ExpenseItem>);
-  }
   return (
     <div>
       <h2>Let's get started!</h2>
-      {ExpenseItems};
+      <Expenses expenses={expenses} />
     </div>
   );
-}
+};
 
 export default App;
