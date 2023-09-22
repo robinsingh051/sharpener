@@ -8,7 +8,7 @@ const App = () => {
     {
       id: 1,
       title: "Car Insurance",
-      amount: 15000,
+      amount: 1500,
       date: new Date(2023, 5, 25),
       location: "Kanpur",
     },
