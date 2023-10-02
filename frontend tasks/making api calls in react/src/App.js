@@ -5,9 +5,11 @@ import "./App.css";
 
 function App() {
   const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const fetchMoviesHandler = async () => {
     try {
+      setLoading(true);
       const response = await axios.get("https://swapi.dev/api/films/");
       const data = response.data;
       const transformedMovies = data.results.map((movieData) => {
@@ -22,6 +24,7 @@ function App() {
     } catch (error) {
       console.error(error);
     } finally {
+      setLoading(false);
     }
   };
 
@@ -31,7 +34,8 @@ function App() {
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
       <section>
-        <MoviesList movies={movies} />
+        {loading && <p>Loading...</p>}
+        {!loading && <MoviesList movies={movies} />}
       </section>
     </React.Fragment>
   );
