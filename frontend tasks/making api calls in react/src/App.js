@@ -16,7 +16,6 @@ function App() {
       const response = await axios.get(
         "https://react-practice-9b982-default-rtdb.firebaseio.com/movies.json"
       );
-      console.log(response.data);
       const data = response.data;
       const loadedMovies = [];
 
@@ -55,12 +54,19 @@ function App() {
   }, [fetchMoviesHandler]);
 
   const addMovieHandler = async (movie) => {
-    // console.log(movie);
-    const response = await axios.post(
+    await axios.post(
       "https://react-practice-9b982-default-rtdb.firebaseio.com/movies.json",
       movie
     );
-    console.log(response.data);
+    fetchMoviesHandler();
+  };
+
+  const deleteMovieHandler = async (id) => {
+    console.log(id);
+    await axios.delete(
+      `https://react-practice-9b982-default-rtdb.firebaseio.com/movies/${id}.json`
+    );
+    fetchMoviesHandler();
   };
 
   return (
@@ -74,7 +80,9 @@ function App() {
       <section>
         {loading && <p>Loading...</p>}
         {error && <p>Error: {error}</p>}
-        {!loading && !error && <MoviesList movies={movies} />}
+        {!loading && !error && (
+          <MoviesList movies={movies} onDelete={deleteMovieHandler} />
+        )}
       </section>
     </React.Fragment>
   );
