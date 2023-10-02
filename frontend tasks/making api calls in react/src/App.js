@@ -13,17 +13,22 @@ function App() {
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get("https://swapi.dev/api/films/");
+      const response = await axios.get(
+        "https://react-practice-9b982-default-rtdb.firebaseio.com/movies.json"
+      );
+      console.log(response.data);
       const data = response.data;
-      const transformedMovies = data.results.map((movieData) => {
-        return {
-          id: movieData.episode_id,
-          title: movieData.title,
-          openingText: movieData.opening_crawl,
-          releaseDate: movieData.release_date,
-        };
-      });
-      setMovies(transformedMovies);
+      const loadedMovies = [];
+
+      for (const key in data) {
+        loadedMovies.push({
+          id: key,
+          title: data[key].title,
+          openingText: data[key].openingText,
+          releaseDate: data[key].releaseDate,
+        });
+      }
+      setMovies(loadedMovies);
     } catch (error) {
       setLoading(false);
       if (error.response) {
@@ -49,9 +54,14 @@ function App() {
     fetchMoviesHandler();
   }, [fetchMoviesHandler]);
 
-  function addMovieHandler(movie) {
-    console.log(movie);
-  }
+  const addMovieHandler = async (movie) => {
+    // console.log(movie);
+    const response = await axios.post(
+      "https://react-practice-9b982-default-rtdb.firebaseio.com/movies.json",
+      movie
+    );
+    console.log(response.data);
+  };
 
   return (
     <React.Fragment>
