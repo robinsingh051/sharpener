@@ -1,17 +1,18 @@
 import classes from "./ProfileForm.module.css";
+import { useHistory } from "react-router-dom";
 import React, { useRef, useState, useContext } from "react";
 import axios from "axios";
 import AuthContext from "../../store/auth-context";
 
 const ProfileForm = () => {
+  const history = useHistory();
+
   const authCtx = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
-  const [passwordReset, setPasswordReset] = useState(false);
   const passwordInputRef = useRef();
 
   const submitHandler = async (event) => {
     setIsLoading(true);
-    setPasswordReset(false);
     event.preventDefault();
     const enteredPassword = passwordInputRef.current.value;
     try {
@@ -24,7 +25,7 @@ const ProfileForm = () => {
         }
       );
       console.log(response.data.idToken);
-      setPasswordReset(true);
+      history.replace("/");
     } catch (err) {
       let errorMessage = "Password Reset failed";
       if (err.response.data.error && err.response.data.error.message)
@@ -37,19 +38,14 @@ const ProfileForm = () => {
 
   return (
     <form className={classes.form} onSubmit={submitHandler}>
-      {passwordReset && <h1>Password Reset Successfull</h1>}
-      {!passwordReset && (
-        <div className={classes.control}>
-          <label htmlFor="new-password">New Password</label>
-          <input type="password" id="new-password" ref={passwordInputRef} />
-        </div>
-      )}
-      {!passwordReset && (
-        <div className={classes.action}>
-          {!isLoading && <button>Change Password</button>}
-          {isLoading && <p>Sending Request</p>}
-        </div>
-      )}
+      <div className={classes.control}>
+        <label htmlFor="new-password">New Password</label>
+        <input type="password" id="new-password" ref={passwordInputRef} />
+      </div>
+      <div className={classes.action}>
+        {!isLoading && <button>Change Password</button>}
+        {isLoading && <p>Sending Request</p>}
+      </div>
     </form>
   );
 };
