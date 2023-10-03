@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 const AuthContext = React.createContext({
   token: "",
@@ -8,16 +8,8 @@ const AuthContext = React.createContext({
 });
 
 export const AuthContextProvider = (props) => {
-  const [token, setToken] = useState(null);
-
-  const checkToken = () => {
-    const token = localStorage.getItem("token");
-    if (token) setToken(token);
-  };
-
-  useEffect(() => {
-    checkToken();
-  }, []);
+  const tokenFromLocalStorage = localStorage.getItem("token");
+  const [token, setToken] = useState(tokenFromLocalStorage);
 
   const userIsLoggedIn = !!token;
 
