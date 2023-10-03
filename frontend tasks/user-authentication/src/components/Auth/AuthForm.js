@@ -23,30 +23,33 @@ const AuthForm = () => {
       //Login mode
       try {
         const response = await axios.post(
-          `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyASAdMwMq2qQod7nc2Z4fjIpYQm1dAzq0g`,
+          `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_API_KEY}`,
           {
             email: enteredEmail,
             password: enteredPassword,
             returnSecureToken: true,
           }
         );
-        setIsLoading(false);
+        console.log(response.data.idToken);
       } catch (err) {
-        console.log(err);
+        let errorMessage = "Authentication failed";
+        if (err.response.data.error && err.response.data.error.message)
+          errorMessage = err.response.data.error.message;
+        alert(errorMessage);
+      } finally {
         setIsLoading(false);
       }
     } else {
       //Signup mode
       try {
-        const response = await axios.post(
-          `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyASAdMwMq2qQod7nc2Z4fjIpYQm1dAzq0g`,
+        await axios.post(
+          `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_API_KEY}`,
           {
             email: enteredEmail,
             password: enteredPassword,
             returnSecureToken: true,
           }
         );
-        setIsLoading(false);
       } catch (err) {
         // console.log(err.response.data.error.code);
         // console.log(err.response.data.error.message);
@@ -54,6 +57,7 @@ const AuthForm = () => {
         if (err.response.data.error && err.response.data.error.message)
           errorMessage = err.response.data.error.message;
         alert(errorMessage);
+      } finally {
         setIsLoading(false);
       }
     }
